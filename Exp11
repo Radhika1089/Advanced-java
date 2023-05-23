@@ -1,0 +1,37 @@
+import java.sql.*; import java.util.*; 
+ 
+public class Demo { 
+    public static void main(String[] args) { 
+        try { 
+            // Establish a connection to the database 
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/javadb", "root", 
+                    "root"); 
+            // Prompt the user for input 
+            Scanner sc = new Scanner(System.in); 
+            System.out.print("Enter student name: "); 
+            String name = sc.nextLine(); 
+            System.out.print("Enter roll number: ");             int rollNo = sc.nextInt(); 
+            System.out.print("Enter marks for subject 1: ");             int marks1 = sc.nextInt(); 
+            System.out.print("Enter marks for subject 2: ");             int marks2 = sc.nextInt(); 
+            System.out.print("Enter marks for subject 3: ");             int marks3 = sc.nextInt(); 
+            System.out.print("Enter marks for subject 4: ");             int marks4 = sc.nextInt(); 
+            System.out.print("Enter marks for subject 5: ");             int marks5 = sc.nextInt(); 
+            // Insert the data into the database 
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO studentmarks values (?, ?, ?, 
+?, ?, ?, ?)"); 
+            stmt.setString(1, name);             stmt.setInt(2, rollNo);             stmt.setInt(3, marks1);             stmt.setInt(4, marks2);             stmt.setInt(5, marks3);             stmt.setInt(6, marks4);             stmt.setInt(7, marks5);             stmt.executeUpdate();             // Calculate the average marks 
+            int totalMarks = marks1 + marks2 + marks3 + marks4 + marks5;             double avgMarks = totalMarks / 5.0; 
+            // Create a view for the result 
+            System.out.println("Student Name: " + name); 
+            System.out.println("Roll Number: " + rollNo); 
+            System.out.println("Marks in Subject 1: " + marks1); 
+            System.out.println("Marks in Subject 2: " + marks2); 
+            System.out.println("Marks in Subject 3: " + marks3); 
+            System.out.println("Marks in Subject 4: " + marks4); 
+            System.out.println("Marks in Subject 5: " + marks5); 
+            System.out.println("Average Marks: " + avgMarks);             // Close the database connection and resources             stmt.close();             conn.close();             sc.close(); 
+        } catch (Exception e) { 
+            System.out.println(e); 
+        } 
+    } 
+} 
